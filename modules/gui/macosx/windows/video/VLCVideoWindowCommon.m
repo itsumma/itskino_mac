@@ -63,6 +63,7 @@ NSString *VLCWindowShouldShowController = @"VLCWindowShouldShowController";
 
     NSRect frameBeforeLionFullscreen;
     VLCPlayerController *_playerController;
+	
 }
 
 - (void)customZoom:(id)sender;
@@ -90,6 +91,7 @@ NSString *VLCWindowShouldShowController = @"VLCWindowShouldShowController";
         [o_temp_view setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
 
         _playerController = [[[VLCMain sharedInstance] playlistController] playerController];
+		
     }
 
     return self;

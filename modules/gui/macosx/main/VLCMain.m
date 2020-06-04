@@ -47,6 +47,7 @@
 #import "main/CompatibilityFixes.h"
 #import "main/VLCMain+OldPrefs.h"
 #import "main/VLCApplication.h"
+#import "main/ItsUnit.h"
 
 #import "extensions/NSString+Helpers.h"
 
@@ -78,9 +79,12 @@
 #import "windows/video/VLCVoutView.h"
 #import "windows/video/VLCVideoOutputProvider.h"
 
-#ifdef HAVE_SPARKLE
-#import <Sparkle/Sparkle.h>                 /* we're the update delegate */
-#endif
+
+//=> ITS //
+//#ifdef HAVE_SPARKLE
+//#import <Sparkle/Sparkle.h>                 /* we're the update delegate */
+//#endif
+//<= ITS //
 
 NSString *VLCConfigurationChangedNotification = @"VLCConfigurationChangedNotification";
 
@@ -88,11 +92,19 @@ NSString *VLCConfigurationChangedNotification = @"VLCConfigurationChangedNotific
 #pragma mark Private extension
 
 @interface VLCMain ()
-#ifdef HAVE_SPARKLE
-<SUUpdaterDelegate, NSApplicationDelegate>
-#else
+
+//=> ITS //
+//#ifdef HAVE_SPARKLE
+//<SUUpdaterDelegate, NSApplicationDelegate>
+//#else
+//<NSApplicationDelegate>
+//#endif
+//<= ITS //
+
+//=> ITS
 <NSApplicationDelegate>
-#endif
+//<= ITS
+
 {
     intf_thread_t *_p_intf;
     BOOL _launched;
@@ -112,6 +124,8 @@ NSString *VLCConfigurationChangedNotification = @"VLCConfigurationChangedNotific
     VLCConvertAndSaveWindowController *_convertAndSaveWindow;
     VLCLibraryWindowController *_libraryWindowController;
     VLCClickerManager *_clickerManager;
+	VLCOpenInputMetadata* _itsInputData;
+	NSString* _itsHash;
 
     bool _interfaceIsTerminating; /* Makes sure applicationWillTerminate will be called only once */
 }
@@ -173,6 +187,7 @@ void CloseIntf (vlc_object_t *p_this)
 #pragma mark -
 #pragma mark Initialization
 
+
 static VLCMain *sharedInstance = nil;
 
 + (VLCMain *)sharedInstance;
@@ -192,6 +207,7 @@ static VLCMain *sharedInstance = nil;
 
 + (void)relaunchApplication
 {
+	
     const char *path = [[[NSBundle mainBundle] executablePath] UTF8String];
 
     /* For some reason we need to fork(), not just execl(), which reports a ENOTSUP then. */
@@ -205,31 +221,55 @@ static VLCMain *sharedInstance = nil;
 {
     self = [super init];
     if (self) {
+//		NSLog(@"inside init vlc main stack symbols %@", [NSThread callStackSymbols]);
         _p_intf = getIntf();
+		
 
         [VLCApplication sharedApplication].delegate = self;
-
+		
+		_itsInputData = nil;
+		_itsHash = nil;
+		
         _playlistController = [[VLCPlaylistController alloc] initWithPlaylist:vlc_intf_GetMainPlaylist(_p_intf)];
+		
         _libraryController = [[VLCLibraryController alloc] init];
+		
         _continuityController = [[VLCPlaybackContinuityController alloc] init];
+		
 
         // first initalize extensions dialog provider, then core dialog
         // provider which will register both at the core
         _extensionsManager = [[VLCExtensionsManager alloc] init];
+		
         _coredialogs = [[VLCCoreDialogProvider alloc] init];
+		
 
         _mainmenu = [[VLCMainMenu alloc] init];
         _voutProvider = [[VLCVideoOutputProvider alloc] init];
+		
 
         // Load them here already to apply stored profiles
         _videoEffectsPanel = [[VLCVideoEffectsWindowController alloc] init];
         _audioEffectsPanel = [[VLCAudioEffectsWindowController alloc] init];
+		
+		
 
         if ([NSApp currentSystemPresentationOptions] & NSApplicationPresentationFullScreen)
             [_playlistController.playerController setFullscreen:YES];
     }
-
+	
     return self;
+}
+
+- (bool)launched
+{
+	return _launched;
+}
+
+- (void)setItsInputData:(VLCOpenInputMetadata*)itsInputData andHash:(NSString*)hash;
+{
+	_itsInputData = itsInputData;
+	_itsHash = hash;
 }
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
@@ -238,9 +278,11 @@ static VLCMain *sharedInstance = nil;
 
     [[NSBundle mainBundle] loadNibNamed:@"MainMenu" owner:_mainmenu topLevelObjects:nil];
 
-#ifdef HAVE_SPARKLE
-    [[SUUpdater sharedUpdater] setDelegate:self];
-#endif
+//=> ITS //
+//#ifdef HAVE_SPARKLE
+//    [[SUUpdater sharedUpdater] setDelegate:self];
+//#endif
+//<= ITS //
 
     if (var_InheritInteger(_p_intf, "macosx-icon-change")) {
         /* After day 354 of the year, the usual VLC cone is replaced by another cone
@@ -263,6 +305,14 @@ static VLCMain *sharedInstance = nil;
     _launched = YES;
     _libraryWindowController = [[VLCLibraryWindowController alloc] initWithLibraryWindow];
     [_libraryWindowController.window makeKeyAndOrderFront:nil];
+	
+	VLCLibraryWindow* window = [ self libraryWindow];
+	_itsUnit = [[ItsUnit alloc] initWithPlaylist:_playlistController andVideoView:window.videoView];
+	if(_itsInputData){
+		[_itsUnit connectToStreamWithInput:_itsInputData andHash:_itsHash];
+		_itsInputData = nil;
+		_itsHash = nil;
+	}
 
     if (!_p_intf)
         return;
@@ -282,8 +332,12 @@ static VLCMain *sharedInstance = nil;
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
+
     if (_interfaceIsTerminating)
         return;
+	
+	if([_itsUnit getItsStreaming]) [_itsUnit stopVideo:false];
+	
     _interfaceIsTerminating = true;
 
     NSNotificationCenter *notiticationCenter = [NSNotificationCenter defaultCenter];
@@ -303,23 +357,26 @@ static VLCMain *sharedInstance = nil;
 #pragma mark -
 #pragma mark Sparkle delegate
 
-#ifdef HAVE_SPARKLE
+//=> ITS //
+//#ifdef HAVE_SPARKLE
 /* received directly before the update gets installed, so let's shut down a bit */
-- (void)updater:(SUUpdater *)updater willInstallUpdate:(SUAppcastItem *)update
-{
-    [NSApp activateIgnoringOtherApps:YES];
-    [_playlistController stopPlayback];
-}
+//- (void)updater:(SUUpdater *)updater willInstallUpdate:(SUAppcastItem *)update
+//{
+//    [NSApp activateIgnoringOtherApps:YES];
+//    [_playlistController stopPlayback];
+//}
+//
+///* don't be enthusiastic about an update if we currently play a video */
+//- (BOOL)updaterMayCheckForUpdates:(SUUpdater *)bundle
+//{
+//    if ([_playlistController.playerController activeVideoPlayback])
+//        return NO;
+//
+//    return YES;
+//}
+//#endif
 
-/* don't be enthusiastic about an update if we currently play a video */
-- (BOOL)updaterMayCheckForUpdates:(SUUpdater *)bundle
-{
-    if ([_playlistController.playerController activeVideoPlayback])
-        return NO;
-
-    return YES;
-}
-#endif
+//<= ITS //
 
 #pragma mark -
 #pragma mark File opening over dock icon
@@ -361,6 +418,7 @@ static VLCMain *sharedInstance = nil;
 /* When user click in the Dock icon our double click in the finder */
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)hasVisibleWindows
 {
+	NSArray *launchArgs = [[NSProcessInfo processInfo] arguments];
     if (!hasVisibleWindows)
         [[self libraryWindow] makeKeyAndOrderFront:self];
 

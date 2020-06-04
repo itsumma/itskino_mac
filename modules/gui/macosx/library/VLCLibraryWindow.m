@@ -26,6 +26,7 @@
 #import "extensions/NSColor+VLCAdditions.h"
 #import "extensions/NSView+VLCAdditions.h"
 #import "main/VLCMain.h"
+#import "main/ItsUnit.h"
 
 #import "playlist/VLCPlayerController.h"
 #import "playlist/VLCPlaylistController.h"
@@ -40,6 +41,8 @@
 #import "library/VLCLibraryCollectionViewSupplementaryElementView.h"
 #import "library/VLCLibrarySortingMenuController.h"
 #import "library/VLCLibraryAlbumTableCellView.h"
+#import "library/VLCInputItem.h"
+
 
 #import "media-source/VLCMediaSourceBaseDataSource.h"
 
@@ -55,6 +58,8 @@
 
 #import <vlc_common.h>
 #import <vlc_url.h>
+
+
 
 const CGFloat VLCLibraryWindowMinimalWidth = 604.;
 const CGFloat VLCLibraryWindowMinimalHeight = 307.;
@@ -80,6 +85,7 @@ const CGFloat VLCLibraryWindowDefaultPlaylistWidth = 340.;
     CGFloat _lastPlaylistWidthBeforeCollaps;
 
     VLCFSPanelController *_fspanel;
+	
 }
 @end
 
@@ -255,6 +261,7 @@ static int ShowController(vlc_object_t *p_this, const char *psz_variable,
     [self segmentedControlAction:nil];
     [self repeatStateUpdated:nil];
     [self shuffleStateUpdated:nil];
+	
 }
 
 - (void)dealloc
@@ -472,6 +479,10 @@ static int ShowController(vlc_object_t *p_this, const char *psz_variable,
         _librarySortingMenuController = [[VLCLibrarySortingMenuController alloc] init];
     }
     [NSMenu popUpContextMenu:_librarySortingMenuController.librarySortingMenu withEvent:[NSApp currentEvent] forView:sender];
+}
+
+- (IBAction)shareVideo:(id)sender {
+	[[[VLCMain sharedInstance] itsUnit] shareVideo];
 }
 
 - (IBAction)openMedia:(id)sender

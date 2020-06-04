@@ -34,9 +34,10 @@
 {
     self = [super init];
     if (self) {
-        if (!item)
+		if (!item){
             [NSException raise:NSInvalidArgumentException
                         format:@"item must not be nil"];
+		}
         _rendererItem = vlc_renderer_item_hold(item);
     }
     return self;

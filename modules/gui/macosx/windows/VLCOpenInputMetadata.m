@@ -23,5 +23,4 @@
 #import "VLCOpenInputMetadata.h"
 
 @implementation VLCOpenInputMetadata
-
 @end

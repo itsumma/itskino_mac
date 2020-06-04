@@ -26,6 +26,7 @@
 
 #import "extensions/NSString+Helpers.h"
 #import "main/VLCMain.h"
+#import "main/ItsUnit.h"
 #import "os-integration/VLCRemoteControlService.h"
 #import "os-integration/iTunes.h"
 #import "os-integration/Spotify.h"
@@ -33,6 +34,10 @@
 
 #import "windows/video/VLCVoutView.h"
 #import "windows/video/VLCVideoWindowCommon.h"
+
+#include <stdlib.h>
+
+
 
 NSString *VLCPlayerElementaryStreamID = @"VLCPlayerElementaryStreamID";
 NSString *VLCTick = @"VLCTick";
@@ -76,9 +81,11 @@ NSString *VLCPlayerMuteChanged = @"VLCPlayerMuteChanged";
 const CGFloat VLCVolumeMaximum = 2.;
 const CGFloat VLCVolumeDefault = 1.;
 
+
+
 @interface VLCPlayerController ()
 {
-    vlc_player_t *_p_player;
+   // vlc_player_t *_p_player;
     vlc_player_listener_id *_playerListenerID;
     vlc_player_aout_listener_id *_playerAoutListenerID;
     vlc_player_vout_listener_id *_playerVoutListenerID;
@@ -138,7 +145,7 @@ const CGFloat VLCVolumeDefault = 1.;
 
 #pragma mark - player callback implementations
 
-static void cb_player_current_media_changed(vlc_player_t *p_player, input_item_t *p_newMediaItem, void *p_data)
+static void cb_player_current_media_changed(vlc_player_t *p_player, input_item_t *p_newMediaItem, void *p_data) // playlistController starts this (itscomment)
 {
     VLC_UNUSED(p_player);
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -684,14 +691,21 @@ static int BossCallback(vlc_object_t *p_this,
 
 - (void)togglePlayPause
 {
-    vlc_player_Lock(_p_player);
-    if (_playerState == VLC_PLAYER_STATE_PLAYING) {
-        vlc_player_Pause(_p_player);
+	vlc_player_Lock(_p_player);
+	if (_playerState == VLC_PLAYER_STATE_PLAYING) {
+		vlc_player_Pause(_p_player);
+		if( [[[VLCMain sharedInstance] itsUnit] getItsStreaming])  {
+			[[[VLCMain sharedInstance] itsUnit] pauseVideo];
+		}
     } else if (_playerState == VLC_PLAYER_STATE_PAUSED) {
-        vlc_player_Resume(_p_player);
+		if( [[[VLCMain sharedInstance] itsUnit] getItsStreaming]) {
+			[[[VLCMain sharedInstance] itsUnit] playVideo];
+		}else {
+			vlc_player_Resume(_p_player);
+		}
     } else
-        vlc_player_Start(_p_player);
-    vlc_player_Unlock(_p_player);
+		vlc_player_Start(_p_player);
+		vlc_player_Unlock(_p_player);
 }
 
 - (void)stop
@@ -754,8 +768,10 @@ static int BossCallback(vlc_object_t *p_this,
 
 - (void)currentMediaItemChanged:(input_item_t *)newMediaItem
 {
-    [_defaultNotificationCenter postNotificationName:VLCPlayerCurrentMediaItemChanged
-                                              object:self];
+	[_defaultNotificationCenter postNotificationName:VLCPlayerCurrentMediaItemChanged
+												 object:self];
+	
+	[[[VLCMain sharedInstance] itsUnit] onMediaItemChanged];
 }
 
 - (vlc_tick_t)durationOfCurrentMediaItem
@@ -819,6 +835,10 @@ static int BossCallback(vlc_object_t *p_this,
 
     /* schedule a timer to restart iTunes / Spotify because we are done here */
     if (_playerState == VLC_PLAYER_STATE_STOPPED) {
+		if([[[VLCMain sharedInstance] itsUnit] getItsStreaming]){
+			[[[VLCMain sharedInstance] itsUnit] stopVideo:true];
+		}
+		
         if (_playbackHasTruelyEndedTimer) {
             [_playbackHasTruelyEndedTimer invalidate];
         }
@@ -1004,6 +1024,8 @@ static int BossCallback(vlc_object_t *p_this,
 
 - (void)setTimePrecise:(vlc_tick_t)time
 {
+	//int test = 20;
+	//time = 20000000;
     vlc_player_Lock(_p_player);
     vlc_player_SeekByTime(_p_player, time, VLC_PLAYER_SEEK_PRECISE, VLC_PLAYER_WHENCE_ABSOLUTE);
     vlc_player_Unlock(_p_player);

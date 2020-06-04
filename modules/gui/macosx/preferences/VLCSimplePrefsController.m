@@ -27,9 +27,11 @@
 
 #import "VLCSimplePrefsController.h"
 
-#ifdef HAVE_SPARKLE
-#import <Sparkle/Sparkle.h>                        //for o_intf_last_updateLabel
-#endif
+//=> ITS //
+//#ifdef HAVE_SPARKLE
+//#import <Sparkle/Sparkle.h>                        //for o_intf_last_updateLabel
+//#endif
+//<= ITS
 
 #import <vlc_actions.h>
 #import <vlc_interface.h>
@@ -190,15 +192,24 @@ static NSString* VLCHotkeysSettingToolbarIdentifier = @"Hotkeys Settings Item Id
 {
     [self initStrings];
 
-#ifdef HAVE_SPARKLE
-    [_intf_updateCheckbox bind:@"value"
-                   toObject:[SUUpdater sharedUpdater]
-                withKeyPath:@"automaticallyChecksForUpdates"
-                    options:nil];
-#else
-    [_intf_updateCheckbox setState:NSOffState];
-    [_intf_updateCheckbox setEnabled:NO];
-#endif
+//=> ITS //
+//#ifdef HAVE_SPARKLE
+//    [_intf_updateCheckbox bind:@"value"
+//                   toObject:[SUUpdater sharedUpdater]
+//                withKeyPath:@"automaticallyChecksForUpdates"
+//                    options:nil];
+//#else
+//    [_intf_updateCheckbox setState:NSOffState];
+//    [_intf_updateCheckbox setEnabled:NO];
+//#endif
+	
+//<= ITS //
+	
+	//=> ITS
+	[_intf_updateCheckbox setState:NSOffState];
+	[_intf_updateCheckbox setEnabled:NO];
+	//<= ITS
+	
 
     /* setup the toolbar */
     NSToolbar * toolbar = [[NSToolbar alloc] initWithIdentifier: VLCSPrefsToolbarIdentifier];
@@ -651,13 +662,15 @@ static inline const char * __config_GetLabel(vlc_object_t *p_this, const char *p
     [self setupButton:_intf_artCheckbox forBoolValue: "metadata-network-access"];
 
 
-#ifdef HAVE_SPARKLE
-    if ([[SUUpdater sharedUpdater] lastUpdateCheckDate] != NULL)
-        [_intf_last_updateLabel setStringValue: [NSString stringWithFormat: _NS("Last check on: %@"), [[[SUUpdater sharedUpdater] lastUpdateCheckDate] descriptionWithLocale: [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]]];
-    else
-        [_intf_last_updateLabel setStringValue: _NS("No check was performed yet.")];
-#endif
-
+//=> ITS //
+//#ifdef HAVE_SPARKLE
+//    if ([[SUUpdater sharedUpdater] lastUpdateCheckDate] != NULL)
+//        [_intf_last_updateLabel setStringValue: [NSString stringWithFormat: _NS("Last check on: %@"), [[[SUUpdater sharedUpdater] lastUpdateCheckDate] descriptionWithLocale: [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]]]];
+//    else
+//        [_intf_last_updateLabel setStringValue: _NS("No check was performed yet.")];
+//#endif
+//<= ITS //
+	
     BOOL growlEnabled = [self hasModule:@"growl" inConfig:@"control"];
     [_intf_enableNotificationsCheckbox setState: growlEnabled ? NSOnState : NSOffState];
 

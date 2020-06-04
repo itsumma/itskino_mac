@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 #import <vlc_player.h>
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class VLCInputStats;
@@ -32,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSString *VLCPlayerElementaryStreamID;
 extern NSString *VLCTick;
+
+
 
 /**
  * Listen to VLCPlayerCurrentMediaItemChanged to notified if the current media item changes for the player
@@ -276,6 +279,8 @@ extern const CGFloat VLCVolumeDefault;
  * Stop the current playback
  */
 - (void)stop;
+
+@property (readonly) vlc_player_t *p_player;
 
 /**
  * the current status of the A→B loop

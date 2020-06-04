@@ -113,6 +113,7 @@ int  WindowOpen   (vout_window_t *);
 
 #define LARGE_LISTFONT_TEXT N_("Use large text for list views")
 
+
 static const int itunes_list[] =
     { 0, 1, 2 };
 static const char *const itunes_list_text[] = {
@@ -129,7 +130,6 @@ static const char *const continue_playback_list_text[] = {
 };
 
 #define VOLUME_MAX_TEXT N_("Maximum Volume displayed")
-
 
 vlc_module_begin()
     set_description(N_("Mac OS X interface"))
@@ -183,6 +183,7 @@ vlc_module_begin()
         add_integer("macosx-vdev", 0, VDEV_TEXT, VDEV_LONGTEXT, false)
         add_float_with_range("macosx-opaqueness", 1, 0, 1, OPAQUENESS_TEXT, OPAQUENESS_LONGTEXT, true);
         add_bool("macosx-black", false, BLACK_TEXT, BLACK_LONGTEXT, false)
+
 vlc_module_end()
 
 /* the following is fake code to make the pseudo VLC target for the macOS module compile and link */

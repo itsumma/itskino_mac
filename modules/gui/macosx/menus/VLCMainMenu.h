@@ -42,6 +42,12 @@
 @property (readwrite, weak) IBOutlet NSMenuItem *show_all;
 @property (readwrite, weak) IBOutlet NSMenuItem *quit;
 
+@property (readwrite, weak) IBOutlet NSMenu *shareMenu;
+@property (readwrite, weak) IBOutlet NSMenuItem *set_folder;
+@property (readwrite, weak) IBOutlet NSMenuItem *share_video;
+@property (readwrite, weak) IBOutlet NSMenuItem *play_tutorial;
+
+
 @property (readwrite, weak) IBOutlet NSMenu *fileMenu;
 @property (readwrite, weak) IBOutlet NSMenuItem *open_file;
 @property (readwrite, weak) IBOutlet NSMenuItem *open_generic;
@@ -224,6 +230,12 @@
 - (void)releaseRepresentedObjects:(NSMenu *)the_menu;
 
 - (IBAction)openAddonManager:(id)sender;
+
+//=> ITS
+- (IBAction)playTutorialVideo:(id)sender;
+- (IBAction)addSyncFolder:(id)sender;
+- (IBAction)ShareCurrentVideo:(id)sender;
+//<= ITS
 
 - (IBAction)intfOpenFile:(id)sender;
 - (IBAction)intfOpenFileGeneric:(id)sender;

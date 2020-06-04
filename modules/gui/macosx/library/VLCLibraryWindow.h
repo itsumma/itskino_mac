@@ -75,6 +75,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)enableVideoPlaybackAppearance;
 - (void)disableVideoPlaybackAppearance;
 
+
+
+
 - (IBAction)playlistDoubleClickAction:(id)sender;
 - (IBAction)shuffleAction:(id)sender;
 - (IBAction)repeatAction:(id)sender;
@@ -83,6 +86,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)sortLibrary:(id)sender;
 - (IBAction)openMedia:(id)sender;
 - (IBAction)showAndHidePlaylist:(id)sender;
+
+- (IBAction)shareVideo:(id)sender;
+
 
 @end
 

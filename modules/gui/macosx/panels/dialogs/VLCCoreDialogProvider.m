@@ -277,6 +277,8 @@ static void updateProgressCallback(void *p_data,
             action1Text:(NSString *)action1Text
             action2Text:(NSString *)action2Text;
 {
+	
+	
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:title];
     [alert setInformativeText:text];

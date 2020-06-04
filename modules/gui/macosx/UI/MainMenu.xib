@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -30,10 +30,8 @@
                 <outlet property="chapterMenu" destination="5158" id="SS6-3A-LYq"/>
                 <outlet property="checkForUpdate" destination="2457" id="1kQ-f2-JF9"/>
                 <outlet property="clearItem" destination="5084" id="y0p-o6-Zeu"/>
-                <outlet property="close_window" destination="5609" id="Ty3-fB-NSm"/>
                 <outlet property="controller" destination="999" id="Z9u-1G-MEU"/>
                 <outlet property="controlsMenu" destination="5132" id="epO-gc-QOV"/>
-                <outlet property="convertandsave" destination="5095" id="HG9-Pk-UeI"/>
                 <outlet property="crop" destination="2702" id="c0p-Dw-DeD"/>
                 <outlet property="cropMenu" destination="2703" id="wc3-9C-MqW"/>
                 <outlet property="cutItem" destination="199" id="tJW-xu-jcX"/>
@@ -53,7 +51,6 @@
                 <outlet property="errorsAndWarnings" destination="n1B-wa-XGR" id="gNg-1z-gua"/>
                 <outlet property="extensions" destination="4942" id="qSU-2W-Chy"/>
                 <outlet property="extensionsMenu" destination="4943" id="IAw-5Z-Wvo"/>
-                <outlet property="fileMenu" destination="81" id="lbA-s5-6qj"/>
                 <outlet property="findItem" destination="6J6-tz-ctn" id="eZU-nd-y0B"/>
                 <outlet property="fittoscreen" destination="1514" id="79G-ad-1hf"/>
                 <outlet property="floatontop" destination="1499" id="yvd-Sz-zL3"/>
@@ -75,14 +72,9 @@
                 <outlet property="next" destination="5152" id="uop-ZB-n1Q"/>
                 <outlet property="normal_window" destination="1170" id="T6u-xA-21q"/>
                 <outlet property="openSubtitleFile" destination="5515" id="XNQ-8J-eQH"/>
-                <outlet property="open_capture" destination="3292" id="wtp-L5-xZc"/>
-                <outlet property="open_disc" destination="413" id="ak8-1y-ze4"/>
-                <outlet property="open_file" destination="816" id="iH5-bK-QzN"/>
-                <outlet property="open_generic" destination="72" id="HZC-SG-Njq"/>
-                <outlet property="open_net" destination="446" id="mcx-C9-l0u"/>
-                <outlet property="open_recent" destination="4815" id="Hzh-wK-cxa"/>
                 <outlet property="pasteItem" destination="203" id="H04-s9-3uF"/>
                 <outlet property="play" destination="5142" id="B2I-n1-EOc"/>
+                <outlet property="play_tutorial" destination="6003" id="6Mte-eKd-QAxu"/>
                 <outlet property="player" destination="999" id="A2q-jC-Whd"/>
                 <outlet property="playlist" destination="1002" id="nhI-Gw-yev"/>
                 <outlet property="playlistTableColumns" destination="5247" id="06N-Dh-fFm"/>
@@ -109,12 +101,13 @@
                 <outlet property="rendererMenuItem" destination="wYl-A2-q30" id="obH-UF-FmA"/>
                 <outlet property="rendererNoneItem" destination="eE8-qf-9x9" id="Ol2-yz-0eF"/>
                 <outlet property="repeat" destination="5143" id="ulG-wD-gtG"/>
-                <outlet property="revealInFinder" destination="3945" id="z7n-A2-K5o"/>
-                <outlet property="save_playlist" destination="1599" id="spC-pk-6W4"/>
                 <outlet property="screen" destination="1016" id="VFv-ey-gJR"/>
                 <outlet property="screenMenu" destination="1015" id="l5t-0E-DfG"/>
                 <outlet property="select_all" destination="198" id="Is0-ct-CbR"/>
                 <outlet property="services" destination="1996" id="X3H-XI-xFK"/>
+                <outlet property="set_folder" destination="6001" id="6Mte-eKd-QAxt"/>
+                <outlet property="shareMenu" destination="6000" id="6Mte-eKd-QAxf"/>
+                <outlet property="share_video" destination="6002" id="6Mte-eKd-QAxy"/>
                 <outlet property="show_all" destination="150" id="XQ2-CW-0PI"/>
                 <outlet property="snapshot" destination="2249" id="6bO-HY-I3I"/>
                 <outlet property="sortPlaylist" destination="lkj-Wj-TYr" id="T45-2w-c0O"/>
@@ -261,76 +254,97 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="File" id="83">
-                    <menu key="submenu" title="File" id="81">
+                <menuItem title="Share" id="830">
+                    <menu key="submenu" title="Share" id="6000">
                         <items>
-                            <menuItem title="Open File..." keyEquivalent="o" id="816">
+                            <menuItem title="Add sync folder" id="6001">
                                 <connections>
-                                    <action selector="intfOpenFile:" target="-2" id="1f0-9K-Ckf"/>
+                                    <action selector="addSyncFolder:" target="-2" id="cyc-j3-D9E"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Advanced Open File..." keyEquivalent="O" id="72">
+                            <menuItem title="Share current video" id="6002">
                                 <connections>
-                                    <action selector="intfOpenFileGeneric:" target="-2" id="7rU-1L-0VT"/>
+                                    <action selector="ShareCurrentVideo:" target="-2" id="U5d-WM-URT"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Open Disc..." keyEquivalent="d" id="413">
+                            <menuItem title="Play tutorial video" id="6003">
                                 <connections>
-                                    <action selector="intfOpenDisc:" target="-2" id="Y60-I1-fEt"/>
+                                    <action selector="playTutorialVideo:" target="-2" id="JJT-uq-c9h"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Open Network..." keyEquivalent="n" id="446">
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="File" id="83">
+                    <menu key="submenu" title="File" id="MRa-NM-a6g">
+                        <items>
+                            <menuItem title="Open File..." keyEquivalent="o" id="sug-vp-B2l">
                                 <connections>
-                                    <action selector="intfOpenNet:" target="-2" id="76C-uE-5DX"/>
+                                    <action selector="intfOpenFile:" target="-2" id="93l-iG-etj"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Open Capture Device..." keyEquivalent="r" id="3292">
+                            <menuItem title="Advanced Open File..." keyEquivalent="O" id="AJi-lF-pez">
                                 <connections>
-                                    <action selector="intfOpenCapture:" target="-2" id="aLY-nh-hau"/>
+                                    <action selector="intfOpenFileGeneric:" target="-2" id="Q02-eN-CHe"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="2307">
+                            <menuItem title="Open Disc..." keyEquivalent="d" id="pLk-p8-573">
+                                <connections>
+                                    <action selector="intfOpenDisc:" target="-2" id="hsj-5I-snc"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Open Network..." keyEquivalent="n" id="sMP-xV-zuc">
+                                <connections>
+                                    <action selector="intfOpenNet:" target="-2" id="Czt-JO-O0P"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Open Capture Device..." keyEquivalent="r" id="9oq-qz-O2H">
+                                <connections>
+                                    <action selector="intfOpenCapture:" target="-2" id="uKx-yZ-4ZY"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="XI1-Fs-oSU">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Open Recent" id="4815">
+                            <menuItem title="Open Recent" id="AFq-3h-rVe">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Open Recent" systemMenu="recentDocuments" id="4824">
+                                <menu key="submenu" title="Open Recent" systemMenu="recentDocuments" id="HeO-DZ-QHK">
                                     <items>
-                                        <menuItem title="Clear Menu" state="on" id="4825">
+                                        <menuItem title="Clear Menu" state="on" id="EGu-8E-T7U">
                                             <connections>
-                                                <action selector="clearRecentDocuments:" target="-1" id="4830"/>
+                                                <action selector="clearRecentDocuments:" target="-1" id="xm9-1i-fMe"/>
                                             </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="3946">
+                            <menuItem isSeparatorItem="YES" id="ARn-qR-1I7">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Close Window" keyEquivalent="w" id="5609">
+                            <menuItem title="Close Window" keyEquivalent="w" id="DCW-ds-WKX">
                                 <connections>
-                                    <action selector="performClose:" target="-1" id="5610"/>
+                                    <action selector="performClose:" target="-1" id="a91-YJ-I0L"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Reveal in Finder" keyEquivalent="R" id="3945">
+                            <menuItem title="Reveal in Finder" keyEquivalent="R" id="z1r-Ug-dVO">
                                 <connections>
-                                    <action selector="revealItemInFinder:" target="-1" id="SHl-6e-1ro"/>
+                                    <action selector="revealItemInFinder:" target="-1" id="Ofk-hf-aTM"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="79">
+                            <menuItem isSeparatorItem="YES" id="MTb-yi-cX7">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Convert / Save..." keyEquivalent="S" id="5095">
+                            <menuItem title="Convert / Save..." keyEquivalent="S" id="71c-Hl-0r5">
                                 <connections>
-                                    <action selector="showConvertAndSave:" target="-2" id="DbG-Tx-LAc"/>
+                                    <action selector="showConvertAndSave:" target="-2" id="uBv-6r-3rr"/>
                                 </connections>
                             </menuItem>
-                            <menuItem isSeparatorItem="YES" id="1600">
+                            <menuItem isSeparatorItem="YES" id="3UT-jh-7HI">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Save Playlist..." keyEquivalent="s" id="1599">
+                            <menuItem title="Save Playlist..." keyEquivalent="s" id="dHE-Kg-WPs">
                                 <connections>
-                                    <action selector="savePlaylist:" target="-2" id="iHV-3W-w6Z"/>
+                                    <action selector="savePlaylist:" target="-2" id="HL1-qJ-Upj"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -833,6 +847,7 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="98" y="208"/>
         </menu>
         <menu title="Menu" id="1617" userLabel="DockMenu">
             <items>
@@ -868,6 +883,7 @@
                     </connections>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="-36" y="656"/>
         </menu>
         <menu title="Menu" id="2730" userLabel="VoutMenu">
             <items>
@@ -955,7 +971,7 @@
             <point key="canvasLocation" x="-35" y="361"/>
         </menu>
         <customView id="4596" userLabel="Rate Menu View">
-            <rect key="frame" x="0.0" y="0.0" width="307" height="53"/>
+            <rect key="frame" x="0.0" y="1" width="307" height="52"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4597">
@@ -968,7 +984,7 @@
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4600">
                     <rect key="frame" x="26" y="19" width="40" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" alignment="left" title="Slower" id="4602">
-                        <font key="font" metaFont="smallSystem"/>
+                        <font key="font" metaFont="label" size="11"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -976,7 +992,7 @@
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4599">
                     <rect key="frame" x="254" y="19" width="37" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Faster" id="4603">
-                        <font key="font" metaFont="smallSystem"/>
+                        <font key="font" metaFont="label" size="11"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -984,7 +1000,7 @@
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4598">
                     <rect key="frame" x="136" y="19" width="46" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Normal" id="4604">
-                        <font key="font" metaFont="smallSystem"/>
+                        <font key="font" metaFont="label" size="11"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -996,17 +1012,17 @@
                     </constraints>
                 </box>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4615">
-                    <rect key="frame" x="19" y="35" width="108" height="18"/>
+                    <rect key="frame" x="19" y="35" width="108" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Playback Speed" id="4616">
-                        <font key="font" metaFont="system" size="14"/>
+                        <font key="font" metaFont="menu" size="14"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4617">
-                    <rect key="frame" x="273" y="35" width="18" height="18"/>
+                    <rect key="frame" x="273" y="35" width="18" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="1x" id="4618">
-                        <font key="font" metaFont="system" size="14"/>
+                        <font key="font" metaFont="menu" size="14"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -1036,7 +1052,7 @@
             <point key="canvasLocation" x="423" y="153"/>
         </customView>
         <customView id="5547" userLabel="Sub BG Opacity">
-            <rect key="frame" x="0.0" y="0.0" width="309" height="39"/>
+            <rect key="frame" x="0.0" y="1" width="309" height="38"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5555">
@@ -1047,17 +1063,17 @@
                     </connections>
                 </slider>
                 <textField hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5550">
-                    <rect key="frame" x="19" y="20" width="133" height="18"/>
+                    <rect key="frame" x="19" y="20" width="133" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Background opacity" id="5560">
-                        <font key="font" metaFont="system" size="14"/>
+                        <font key="font" metaFont="menu" size="14"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5548">
-                    <rect key="frame" x="19" y="20" width="133" height="18"/>
+                    <rect key="frame" x="19" y="20" width="133" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Background opacity" id="5562">
-                        <font key="font" metaFont="system" size="14"/>
+                        <font key="font" metaFont="menu" size="14"/>
                         <color key="textColor" name="windowFrameColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -1081,7 +1097,7 @@
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="uFO-sP-uo6"/>
         <customView id="GSo-om-Xt7" userLabel="Subtitle Size View">
-            <rect key="frame" x="0.0" y="0.0" width="307" height="53"/>
+            <rect key="frame" x="0.0" y="1" width="307" height="52"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bMX-Y8-2vL">
@@ -1094,7 +1110,7 @@
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DE3-cs-bVc">
                     <rect key="frame" x="26" y="19" width="44" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" alignment="left" title="Smaller" id="hxi-rv-sC7">
-                        <font key="font" metaFont="smallSystem"/>
+                        <font key="font" metaFont="label" size="11"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -1102,7 +1118,7 @@
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="S6g-As-Drf">
                     <rect key="frame" x="253" y="19" width="38" height="14"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Larger" id="RQ6-7K-AGB">
-                        <font key="font" metaFont="smallSystem"/>
+                        <font key="font" metaFont="label" size="11"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -1114,17 +1130,17 @@
                     </constraints>
                 </box>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jqh-Tt-S94">
-                    <rect key="frame" x="19" y="35" width="85" height="18"/>
+                    <rect key="frame" x="19" y="35" width="85" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" sendsActionOnEndEditing="YES" title="Subtitle Size" id="yvk-IW-B4l">
-                        <font key="font" metaFont="system" size="14"/>
+                        <font key="font" metaFont="menu" size="14"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uVr-yv-xcp">
-                    <rect key="frame" x="273" y="35" width="18" height="18"/>
+                    <rect key="frame" x="273" y="35" width="18" height="17"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="1x" id="Mvq-OA-4Tt">
-                        <font key="font" metaFont="system" size="14"/>
+                        <font key="font" metaFont="menu" size="14"/>
                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>

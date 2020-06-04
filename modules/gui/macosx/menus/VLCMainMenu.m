@@ -22,6 +22,7 @@
 
 #import "VLCMainMenu.h"
 #import "main/VLCMain.h"
+#import "main/ItsUnit.h"
 
 #import "coreinteraction/VLCVideoFilterHelper.h"
 
@@ -60,9 +61,13 @@
 
 #import <vlc_interface.h>
 
-#ifdef HAVE_SPARKLE
-#import <Sparkle/Sparkle.h>
-#endif
+
+//=> ITS //
+//#ifdef HAVE_SPARKLE
+//#import <Sparkle/Sparkle.h>
+//#endif
+//<= ITS
+
 
 typedef NS_ENUM(NSInteger, VLCObjectType) {
     VLCObjectTypeInterface,
@@ -140,12 +145,22 @@ typedef NS_ENUM(NSInteger, VLCObjectType) {
     [self setRateControlsEnabled:NO];
     [self setSubtitleSizeControlsEnabled:NO];
 
-#ifdef HAVE_SPARKLE
-    [_checkForUpdate setAction:@selector(checkForUpdates:)];
-    [_checkForUpdate setTarget:[SUUpdater sharedUpdater]];
-#else
-    [_checkForUpdate setEnabled:NO];
-#endif
+	 
+//=> ITS //
+// #ifdef HAVE_SPARKLE
+//    [_checkForUpdate setAction:@selector(checkForUpdates:)];
+//    [_checkForUpdate setTarget:[SUUpdater sharedUpdater]];
+//#else
+//    [_checkForUpdate setEnabled:NO];
+//#endif
+	
+//<= ITS //
+
+	//=> ITS
+	[_checkForUpdate setEnabled:NO];
+	//<= ITS
+	
+
 
     [self initStrings];
     [self setupKeyboardShortcuts];
@@ -352,6 +367,13 @@ typedef NS_ENUM(NSInteger, VLCObjectType) {
     /* this special case is needed to due to archiac legacy translations of the File menu
      * on the Mac to the German translation which resulted in 'Ablage' instead of 'Datei'.
      * This remains until the present day and does not affect the Windows world. */
+	
+	[_shareMenu setTitle: _NS("ITSKino")];
+	[_set_folder setTitle: _NS("Set sync directory")];
+	[_share_video setTitle: _NS("Share current video")];
+	[_play_tutorial setTitle: _NS("Play tutorial video")];
+	
+	
     [_fileMenu setTitle: _ANS("1:File")];
     [_open_generic setTitle: _NS("Advanced Open File...")];
     [_open_file setTitle: _NS("Open File...")];
@@ -1319,6 +1341,20 @@ typedef NS_ENUM(NSInteger, VLCObjectType) {
 }
 
 #pragma mark - Panels
+
+
+- (IBAction)playTutorialVideo:(id)sender {
+	[[[VLCMain sharedInstance] itsUnit] openTutorialVideo];
+}
+
+
+- (IBAction)addSyncFolder:(id)sender {
+	[[[VLCMain sharedInstance] itsUnit] addSyncFolder];
+}
+
+- (IBAction)ShareCurrentVideo:(id)sender {
+	[[[VLCMain sharedInstance] itsUnit] shareVideo];
+}
 
 - (IBAction)intfOpenFile:(id)sender
 {

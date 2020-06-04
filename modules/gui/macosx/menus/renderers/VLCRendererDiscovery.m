@@ -60,9 +60,10 @@ static void renderer_event_item_removed(vlc_renderer_discovery_t *rd,
     self = [super init];
 
     if (self) {
-        if (!name)
+		if (!name){
             [NSException raise:NSInvalidArgumentException
                         format:@"name must not be nil"];
+		}
         _name = [NSString stringWithUTF8String:name];
         _longName = (!longname) ? nil : [NSString stringWithUTF8String:longname];
         _rendererItems = [NSMutableArray array];

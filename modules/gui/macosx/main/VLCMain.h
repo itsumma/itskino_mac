@@ -32,6 +32,7 @@
 #import <vlc_common.h>
 #import <vlc_interface.h>
 
+
 /*****************************************************************************
  * Local prototypes.
  *****************************************************************************/
@@ -60,11 +61,16 @@ extern NSString *VLCConfigurationChangedNotification;
 @class VLCLibraryController;
 @class VLCPlaylistController;
 @class VLCVideoOutputProvider;
+@class VLCOpenInputMetadata;
+@class ItsUnit;
 
 @interface VLCMain : NSObject
 
 + (VLCMain *)sharedInstance;
 + (void)relaunchApplication;
+-(bool)launched;
+-(void)setItsInputData:(VLCOpenInputMetadata*)itsInputData andHash:(NSString*)hash;
+
 
 @property (readonly) BOOL isTerminating;
 
@@ -85,5 +91,7 @@ extern NSString *VLCConfigurationChangedNotification;
 @property (readonly) VLCTrackSynchronizationWindowController *trackSyncPanel;
 @property (readonly) VLCVideoEffectsWindowController *videoEffectsPanel;
 @property (readonly) VLCVideoOutputProvider *voutProvider;
+@property (readonly) ItsUnit *itsUnit;
+//@property (readwrite, nonatomic) VLCOpenInputMetadata *itsInputData;
 
 @end

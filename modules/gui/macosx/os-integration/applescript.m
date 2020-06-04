@@ -31,13 +31,17 @@
 #import <vlc_url.h>
 
 #import "main/VLCMain.h"
+#import "main/ItsUnit.h"
 #import "playlist/VLCPlaylistController.h"
 #import "playlist/VLCPlayerController.h"
 #import "windows/VLCOpenInputMetadata.h"
 
+
+
 /*****************************************************************************
  * VLGetURLScriptCommand implementation
  *****************************************************************************/
+
 @implementation VLGetURLScriptCommand
 
 - (id)performDefaultImplementation
@@ -47,10 +51,22 @@
 
     if ([commandString isEqualToString:@"GetURL"] || [commandString isEqualToString:@"OpenURL"]) {
         if (parameterString) {
-            VLCOpenInputMetadata *inputMetadata = [[VLCOpenInputMetadata alloc] init];
-            inputMetadata.MRLString = parameterString;
-
-            [[[VLCMain sharedInstance] playlistController] addPlaylistItems:@[inputMetadata]];
+			VLCOpenInputMetadata *inputMetadata = [[VLCOpenInputMetadata alloc] init];
+			inputMetadata.MRLString = parameterString;
+			
+			NSURL *url = [NSURL URLWithString:[parameterString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
+			
+			NSString *scheme = url.scheme;
+			NSString *hash = url.host;
+			if([scheme isEqualToString:@"itsshare"]){
+				if([[VLCMain sharedInstance] launched]){
+					[[[VLCMain sharedInstance] itsUnit] connectToStreamWithInput:inputMetadata andHash:hash];
+				}else{
+					[[VLCMain sharedInstance] setItsInputData:inputMetadata andHash:hash] ;
+				}
+			}else{
+				[[[VLCMain sharedInstance] playlistController] addPlaylistItems:@[inputMetadata]];
+			}
         }
     }
     return nil;

@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: vlc 2.2.7\n"
 "Report-Msgid-Bugs-To: vlc-devel@videolan.org\n"
 "POT-Creation-Date: 2017-12-06 02:55+0100\n"
-"PO-Revision-Date: 2017-09-23 19:54+0000\n"
+"PO-Revision-Date: 2020-05-26 15:56+0800\n"
 "Last-Translator: Alexander Lakhin <exclusion@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/yaron/vlc-trans/language/"
 "ru/)\n"
@@ -25,6 +25,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #: include/vlc_common.h:1040
 msgid ""
@@ -30148,6 +30149,36 @@ msgstr "AAAA; "
 #: modules/gui/qt/ui/vlm.h:302
 msgid "Media Manager List"
 msgstr "Список настроек медиаменеджера"
+
+msgid "Set sync directory"
+msgstr "Указать директорию синхронизации"
+
+msgid "Share current video"
+msgstr "Поделиться текущим видео"
+
+msgid "Play tutorial video"
+msgstr "Показать обучающее видео"
+
+msgid "Share link copied to clipboard"
+msgstr "Инвайт-ссылка скопирована в буфер обмена"
+
+msgid "You are trying to restart playing stream"
+msgstr "Данная сессия уже активна"
+
+msgid "Shared file not found"
+msgstr "Указанный файл отсутствует в директории синхронизации"
+
+msgid "Sync directory not set"
+msgstr "Не указана директория синхронизации"
+
+msgid "Something went wrong. Please try again later"
+msgstr "Что-то пошло не так. Пожалуйста попытайтесь позже"
+
+msgid "Stream is running. Please stop current stream to init a new one"
+msgstr "Пожалуйста, завершите текущий стрим , чтобы создать новый"
+
+msgid "No video to share"
+msgstr "Не выбрано видео для совместного просмотра"
 
 #, fuzzy
 #~ msgid "The Sound Font file (SF2/DLS) to use for synthesis."
